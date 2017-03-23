@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.domain.Human;
 import com.example.domain.User;
 import com.example.service.HumanService;
+import com.example.service.LoginUserDetails;
 import com.example.service.UserService;
 
 @Controller
@@ -97,7 +99,8 @@ public class MainController {
 	}
 	
 	@PostMapping(path="create2")
-	String create(@Validated HumanForm form, BindingResult result,Model model){
+	String create(@Validated HumanForm form, BindingResult result,Model model,
+			@AuthenticationPrincipal LoginUserDetails userDetails){
 		if(result.hasErrors()){
 			return input(model);
 		}
@@ -106,7 +109,7 @@ public class MainController {
 		Human human = new Human();
 		BeanUtils.copyProperties(form, human);
 		human.setAge(humanService.getAge(birthDay));
-		humanService.create(human);
+		humanService.create(human,userDetails.getUser());
 		}catch (DateTimeException e){
 			// 日時が不適切です、インプットする(後で)
 			return input(model);
@@ -126,9 +129,10 @@ public class MainController {
 	}
 	
 	@PostMapping(path = "edit")
-	String edit(@RequestParam  Integer id,@Validated HumanForm form,BindingResult result,Model model){
+	String edit(@RequestParam  Integer id,@Validated HumanForm form,BindingResult result,Model model,
+			@AuthenticationPrincipal LoginUserDetails userDetails){
 		if(result.hasErrors()){
-			return edit(id, form, result, model);
+			return edit(id, form, result, model,userDetails);
 		}
 		try{
 		LocalDate birthDay = LocalDate.of(form.getYear(),form.getMonth(),form.getDay());	
@@ -136,7 +140,7 @@ public class MainController {
 		BeanUtils.copyProperties(form, human);
 		human.setAge(humanService.getAge(birthDay));
 		human.setId(id);
-		humanService.update(human);
+		humanService.update(human,userDetails.getUser());
 		}catch (DateTimeException e){
 			// 日時が不適切です、インプットする(後で)
 			return input(model);
@@ -163,8 +167,9 @@ public class MainController {
 		if(!form.getPassword().equals(form.getPassword2())){
 			return userinput(model);
 		}
-		User user = new User(form.getUsername(),form.getPassword());//securityを入れたらエンコード
-		
+		User user = new User();
+		user.setUsername(form.getUsername());
+		user.setEncodedPassword(form.getPassword());//securityを入れたらエンコード
 		userService.create(user);		
 		return "redirect:/humans";
 	}

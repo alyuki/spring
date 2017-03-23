@@ -5,25 +5,30 @@
 <title>list</title>
 </head>
 <body>
+<form th:action="@{/logout}" method="post">
+	<input type="submit" value="ログアウト"/>
+</form>
 <form th:action="@{/humans/create}" method="post">
 				<input type="submit" value="登録画面へ"/>
 				
 </form>
 
 <hr/>
-
+<hr/>
 <table>
 	<tr>
 		<th>ID</th>
 		<th>名前</th>
 		<th>性別</th>
 		<th>誕生日</th>
+		<th>担当者</th>
 	</tr>
 	<tr th:each="human : ${humans}">
 		<td th:text="${human.id}"></td>
 		<td th:text="${human.name}"></td>
 		<td th:text="${human.sex}"></td>
 		<td th:text="${human.age}"></td>
+		<td th:text="${human.user.username}"></td>
 		<td>
 			<form th:action="@{/humans/edit}" method="get">
 				<input type="submit" name="form" value="編集"/>

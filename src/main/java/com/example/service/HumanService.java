@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.example.domain.Human;
-
+import com.example.domain.User;
 import com.example.repository.HumanRepository;
 
 
@@ -39,13 +39,13 @@ public class HumanService {
         return humanRepository.findOne(id);
     }
 
-    public Human create(Human human) {
-    	
+    public Human create(Human human,User user) {
+    	human.setUser(user);
         return humanRepository.save(human);
     }
 
-    public Human update(Human human) {
-    	
+    public Human update(Human human,User user) {
+    	human.setUser(user);
         return humanRepository.save(human);
     }
 
