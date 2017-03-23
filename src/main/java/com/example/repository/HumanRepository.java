@@ -13,6 +13,9 @@ import com.example.domain.Human;
 public interface HumanRepository extends JpaRepository<Human, Integer> {
     @Query("SELECT x FROM Human x ORDER BY x.name, x.sex")
     List<Human> findAllOrderByName();
+    
+    @Query("SELECT x FROM Human x ORDER BY x.id desc")
+    List<Human> findAllOrderByIdDesc();
 
     @Query("SELECT x FROM Human x ORDER BY x.name, x.sex")
     Page<Human> findAllOrderByName(Pageable pageable);

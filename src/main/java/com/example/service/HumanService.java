@@ -26,6 +26,10 @@ public class HumanService {
 	public List<Human> findAll() {
         return humanRepository.findAllOrderByName();
     }
+	
+	public List<Human> findAllOrderByIdDesc() {
+        return humanRepository.findAllOrderByIdDesc();
+    }
 
     public Page<Human> findAll(Pageable pageable) {
         return humanRepository.findAllOrderByName(pageable);

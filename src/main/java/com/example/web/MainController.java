@@ -46,7 +46,7 @@ public class MainController {
 	
 	@GetMapping
 	String list(Model model){
-		List<Human> humans = humanService.findAll();
+		List<Human> humans = humanService.findAllOrderByIdDesc();
 		List<User> users = userService.findAll();
 		model.addAttribute("humans",humans);
 		model.addAttribute("users",users);
