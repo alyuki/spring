@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8"/>
 <title>list</title>
 </head>
 <body>
-<form th:action="@{/logout}" method="post">
+	<span sec:authentication="principal.user.username"></span>さんログイン中。
+	<form th:action="@{/logout}" method="post">
 	<input type="submit" value="ログアウト"/>
-</form>
+	</form>
+<hr/>
+<hr/>
 <form th:action="@{/humans/create}" method="post">
 				<input type="submit" value="登録画面へ"/>
 				
 </form>
-
-<hr/>
-<hr/>
 <table>
 	<tr>
 		<th>ID</th>

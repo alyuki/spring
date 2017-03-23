@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -168,8 +169,8 @@ public class MainController {
 			return userinput(model);
 		}
 		User user = new User();
-		user.setUsername(form.getUsername());
-		user.setEncodedPassword(form.getPassword());//securityを入れたらエンコード
+		user.setUsername(form.getUsername());	
+		user.setEncodedPassword(new Pbkdf2PasswordEncoder().encode(form.getPassword()));//securityを入れたらエンコード
 		userService.create(user);		
 		return "redirect:/humans";
 	}
