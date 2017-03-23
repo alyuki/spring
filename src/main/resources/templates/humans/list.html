@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>list</title>
+</head>
+<body>
+<form th:action="@{/humans/create}" method="post">
+				<input type="submit" value="登録画面へ"/>
+				
+</form>
+
+<hr/>
+
+<table>
+	<tr>
+		<th>ID</th>
+		<th>名前</th>
+		<th>性別</th>
+		<th>誕生日</th>
+	</tr>
+	<tr th:each="human : ${humans}">
+		<td th:text="${human.id}"></td>
+		<td th:text="${human.name}"></td>
+		<td th:text="${human.sex}"></td>
+		<td th:text="${human.age}"></td>
+		<td>
+			<form th:action="@{/humans/edit}" method="get">
+				<input type="submit" name="form" value="編集"/>
+				<input type="hidden" name="id" th:value="${human.id}"/>
+			</form>
+		</td>
+		<td>
+			<form th:action="@{/humans/delete}" method="post">
+				<input type="submit" value="削除"/>
+				<input type="hidden" name="id" th:value="${human.id}"/>
+			</form>
+		</td>
+	</tr>
+</table>
+<hr/>
+<hr/>
+	<table>
+	<form th:action="@{/humans/usercreate}" method="post">
+				<input type="submit" value="管理者登録画面へ"/>
+				
+	</form>
+		<tr>
+			<th>管理者:</th>
+			<td th:each="user : ${users}">
+			<label th:text="${user.username}"></label>
+			<form th:action="@{/humans/userdelete}" method="post">
+				<input type="submit" value="削除"/>
+				<input type="hidden" name="id" th:value="${user.username}"/>
+			</form>
+			</td>			
+		</tr>
+	</table>
+</body>
+</html>

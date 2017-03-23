@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>input</title>
+</head>
+<body>
+	<form th:action="@{/humans/create2}" th:object="${humanForm}" method="post">
+		<table>
+			<tr>
+			<th><label for="name">名前</label></th>
+			<td>
+				<input type="text" id="name" name="name" th:field="*{name}" th:errorclass="error-input"/>
+				<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-messages">error!</span>
+			</td>
+			</tr>
+			<tr>
+			<th><label for="sex">性別</label></th>
+			<td>
+				<input type="radio" id="sex" name="sex" th:each="item : ${sexItems}" th:value="${item.value}" th:text="${item.key}" th:field="*{sex}"/>
+				<span th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="error-messages">error!</span>
+			</td>
+			</tr>
+			<tr>
+			<th><label>誕生日</label></th>
+			<td>
+				<select name="yearselect" th:field="*{year}">
+              	
+              	<option th:each="item : ${yearItems}" th:value="${item.value}" th:text="${item.key}"></option>             	
+		        </select>
+		        
+		        
+		        <select name="monthselect" th:field="*{month}">
+             
+              	<option th:each="item : ${monthItems}" th:value="${item.value}" th:text="${item.key}"></option>             	
+		        </select>		        
+		        <select name="dayselect" th:field="*{day}">
+              	
+              	<option th:each="item : ${dayItems}" th:value="${item.value}" th:text="${item.key}"></option>             	
+		        </select>
+		        <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}">error!</span>
+			</td>
+			</tr>
+		</table>
+		<input type="submit" value="作成"/>
+	</form>
+	<form th:action="@{/humans}" method="get">
+		<input type="submit" value="戻る"/>
+	</form>
+</body>
+</html>
